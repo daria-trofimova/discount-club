@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.gson)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
