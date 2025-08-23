@@ -14,4 +14,8 @@ class UserLocalDataSource @Inject constructor() {
     fun getUser(): Flow<User?> {
         return user.asStateFlow()
     }
+
+    suspend fun setUser(user: User) {
+        this.user.emit(user)
+    }
 }
