@@ -3,13 +3,12 @@ package com.example.discountclub.purchases
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.discountclub.domain.GetPurchasesByDateUseCase
-import com.example.discountclub.domain.model.Purchase
+import com.example.discountclub.domain.model.DatePurchases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,5 +33,5 @@ class MyPurchasesViewModel @Inject constructor(
 
 sealed class MyPurchasesUiState {
     data object Loading : MyPurchasesUiState()
-    data class Success(val purchasesByDate: Map<Date, List<Purchase>>) : MyPurchasesUiState()
+    data class Success(val purchasesByDate: List<DatePurchases>) : MyPurchasesUiState()
 }

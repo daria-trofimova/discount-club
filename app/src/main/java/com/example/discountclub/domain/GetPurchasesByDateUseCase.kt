@@ -1,15 +1,23 @@
 package com.example.discountclub.domain
 
+import com.example.discountclub.core.common.toMidnight
 import com.example.discountclub.data.PurchasesRepository
-import com.example.discountclub.domain.model.Purchase
-import java.util.Date
+import com.example.discountclub.domain.model.DatePurchases
 import javax.inject.Inject
 
 class GetPurchasesByDateUseCase @Inject constructor(
-    private val purchasesRepository: PurchasesRepository,
+    private val repository: PurchasesRepository,
 ) {
-    // TODO: Don't forget to group by date! Not by timestamp
-    suspend operator fun invoke(): Map<Date, List<Purchase>> {
-        TODO()
+
+    suspend operator fun invoke(): List<DatePurchases> {
+        return repository.getPurchases()
+            .groupBy { purchase ->
+                purchase.date.toMidnight()
+            }
+            .map { (date, purchases) ->
+                val purchaseItems = purchases.flatMap { it.items }
+                DatePurchases(date = date, items = purchaseItems)
+            }.sortedByDescending { it.date }
+
     }
 }
