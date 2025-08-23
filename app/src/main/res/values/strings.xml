@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DiscountClub</string>
+    <string name="my_purchases">My Purchases</string>
 </resources>
