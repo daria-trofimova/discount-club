@@ -16,10 +16,11 @@ fun ProfileScreen(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     when (val currentUiState = uiState.value) {
+        is ProfileUiState.Loading -> LoadingProfile()
         is ProfileUiState.Unauthenticated ->
-            GuestProfileScreen(onRegistrationButtonClicked = onNavigateToRegistration)
+            GuestProfile(onRegistrationButtonClicked = onNavigateToRegistration)
 
-        is ProfileUiState.Authenticated -> ProfileScreen(
+        is ProfileUiState.Authenticated -> Profile(
             name = currentUiState.name,
             lastName = currentUiState.lastName,
             onMyPurchasesButtonClicked = onNavigateToMyPurchases,
@@ -28,7 +29,14 @@ fun ProfileScreen(
 }
 
 @Composable
-private fun GuestProfileScreen(
+private fun LoadingProfile(
+    modifier: Modifier = Modifier,
+) {
+
+}
+
+@Composable
+private fun GuestProfile(
     onRegistrationButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -38,7 +46,7 @@ private fun GuestProfileScreen(
 }
 
 @Composable
-private fun ProfileScreen(
+private fun Profile(
     name: String,
     lastName: String,
     onMyPurchasesButtonClicked: () -> Unit,
