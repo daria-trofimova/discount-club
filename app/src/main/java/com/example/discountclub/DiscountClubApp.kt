@@ -23,8 +23,22 @@ fun DiscountClubApp() {
             startDestination = Screen.Profile.name,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = Screen.Profile.name) { ProfileScreen() }
-            composable(route = Screen.Registration.name) { RegistrationScreen() }
+            composable(route = Screen.Profile.name) {
+                ProfileScreen(
+                    onNavigateToRegistration = { navController.navigate(Screen.Registration.name) },
+                    onNavigateToMyPurchases = { navController.navigate(Screen.MyPurchases.name) },
+                )
+            }
+            composable(route = Screen.Registration.name) {
+                RegistrationScreen(
+                    onRegistrationCompleted = {
+                        navController.popBackStack(
+                            route = Screen.Profile.name,
+                            inclusive = false
+                        )
+                    }
+                )
+            }
             composable(route = Screen.MyPurchases.name) { MyPurchasesScreen() }
         }
     }

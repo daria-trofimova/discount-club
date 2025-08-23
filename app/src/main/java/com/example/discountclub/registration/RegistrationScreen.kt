@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun RegistrationScreen(
+    onRegistrationCompleted: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel = viewModel(),
 ) {
