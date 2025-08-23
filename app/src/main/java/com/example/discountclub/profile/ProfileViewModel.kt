@@ -19,6 +19,10 @@ class ProfileViewModel @Inject constructor(
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
 
     init {
+        loadUser()
+    }
+
+    private fun loadUser() {
         viewModelScope.launch {
             getUserUseCase().collect { user ->
                 user?.let {
