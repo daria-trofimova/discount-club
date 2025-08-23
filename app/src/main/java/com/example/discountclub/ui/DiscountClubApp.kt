@@ -1,4 +1,4 @@
-package com.example.discountclub
+package com.example.discountclub.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -8,10 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.discountclub.navigation.Screen
-import com.example.discountclub.profile.ProfileScreen
-import com.example.discountclub.purchases.MyPurchasesScreen
-import com.example.discountclub.registration.RegistrationScreen
+import com.example.discountclub.ui.navigation.Screen
+import com.example.discountclub.ui.screens.profile.ProfileScreen
+import com.example.discountclub.ui.screens.purchases.MyPurchasesScreen
+import com.example.discountclub.ui.screens.registration.RegistrationScreen
 
 @Composable
 fun DiscountClubApp() {

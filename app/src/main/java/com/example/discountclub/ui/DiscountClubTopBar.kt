@@ -1,4 +1,4 @@
-package com.example.discountclub
+package com.example.discountclub.ui
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton

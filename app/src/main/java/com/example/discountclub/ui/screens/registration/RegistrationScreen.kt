@@ -1,4 +1,4 @@
-package com.example.discountclub.registration
+package com.example.discountclub.ui.screens.registration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

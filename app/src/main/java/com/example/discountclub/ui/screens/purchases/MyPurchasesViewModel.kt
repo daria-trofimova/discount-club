@@ -1,4 +1,4 @@
-package com.example.discountclub.purchases
+package com.example.discountclub.ui.screens.purchases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

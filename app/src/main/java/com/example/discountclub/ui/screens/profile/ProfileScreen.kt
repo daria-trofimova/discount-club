@@ -1,4 +1,4 @@
-package com.example.discountclub.profile
+package com.example.discountclub.ui.screens.profile
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text

@@ -1,4 +1,4 @@
-package com.example.discountclub.profile
+package com.example.discountclub.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

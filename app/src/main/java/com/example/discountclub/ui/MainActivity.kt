@@ -1,4 +1,4 @@
-package com.example.discountclub
+package com.example.discountclub.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

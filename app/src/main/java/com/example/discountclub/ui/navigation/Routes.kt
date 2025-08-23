@@ -1,4 +1,4 @@
-package com.example.discountclub.navigation
+package com.example.discountclub.ui.navigation
 
 enum class Screen {
     Profile,

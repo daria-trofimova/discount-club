@@ -1,4 +1,4 @@
-package com.example.discountclub.purchases
+package com.example.discountclub.ui.screens.purchases
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
