@@ -4,6 +4,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -12,8 +13,18 @@ fun ProfileScreen(
     onNavigateToMyPurchases: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = viewModel(),
-    ) {
-    GuestProfileScreen(onRegistrationButtonClicked = onNavigateToRegistration)
+) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    when (val currentUiState = uiState.value) {
+        is ProfileUiState.Unauthenticated ->
+            GuestProfileScreen(onRegistrationButtonClicked = onNavigateToRegistration)
+
+        is ProfileUiState.Authenticated -> ProfileScreen(
+            name = currentUiState.name,
+            lastName = currentUiState.lastName,
+            onMyPurchasesButtonClicked = onNavigateToMyPurchases,
+        )
+    }
 }
 
 @Composable
