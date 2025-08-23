@@ -15,7 +15,9 @@ import com.example.discountclub.registration.RegistrationScreen
 @Composable
 fun DiscountClubApp() {
     val navController = rememberNavController()
-    Scaffold(topBar = {}) { innerPadding ->
+    Scaffold(topBar = {
+        DiscountClubTopBar(navigateUp = { navController.navigateUp() })
+    }) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = Screen.Profile.name,
