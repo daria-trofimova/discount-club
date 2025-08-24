@@ -1,5 +1,7 @@
 package com.example.discountclub.ui.screens.profile
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,12 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,8 +52,8 @@ fun ProfileScreen(
         is ProfileUiState.Authenticated -> Profile(
             user = currentUiState.user,
             settings = currentUiState.settings,
-            onMyPurchasesButtonClicked = onNavigateToMyPurchases,
-            onRegistrationButtonClicked = onNavigateToRegistration,
+            onMyPurchasesButtonClick = onNavigateToMyPurchases,
+            onRegistrationButtonClick = onNavigateToRegistration,
             modifier = modifier,
         )
     }
@@ -73,8 +75,8 @@ private fun LoadingProfile(
 private fun Profile(
     user: User,
     settings: Settings,
-    onMyPurchasesButtonClicked: () -> Unit,
-    onRegistrationButtonClicked: () -> Unit,
+    onMyPurchasesButtonClick: () -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -93,18 +95,19 @@ private fun Profile(
             fontSize = 14.sp
         )
         Spacer(modifier = Modifier.height(24.dp))
-
-        ProfileSetting(
-            title = stringResource(R.string.my_purchases),
-            onClick = onMyPurchasesButtonClicked,
+        Text(
+            text = stringResource(R.string.my_purchases),
+            fontSize = 16.sp
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        MyPurchasesProfileSetting(onClick = onMyPurchasesButtonClick)
         Spacer(modifier = Modifier.height(24.dp))
         ProfileSettings(
             email = user.email,
             isEmailConfirmed = user.isEmailConfirmed,
             isBiometricAllowed = settings.isBiometricAuthAllowed,
             language = settings.language,
-            onRegistrationButtonClicked = onRegistrationButtonClicked,
+            onRegistrationButtonClick = onRegistrationButtonClick,
         )
     }
 }
@@ -142,48 +145,60 @@ private fun ProfileSettings(
     isEmailConfirmed: Boolean,
     isBiometricAllowed: Boolean,
     language: Language,
-    onRegistrationButtonClicked: () -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.settings),
-            fontSize = 14.sp,
+            fontSize = 16.sp,
         )
+        Spacer(modifier = Modifier.height(8.dp))
         EmailProfileSetting(
             email = email,
             isEmailConfirmed = isEmailConfirmed,
         )
         Spacer(modifier = Modifier.height(1.dp))
-        var tempIsBiometricAllowed by remember { mutableStateOf(isBiometricAllowed) }
+        BiometricProfileSetting(
+            isBiometricAllowed = isBiometricAllowed,
+        )
+        Spacer(modifier = Modifier.height(1.dp))
         ProfileSetting(
-            title = stringResource(R.string.login_by_biometrics),
-            contentEnd = {
-                Switch(
-                    checked = tempIsBiometricAllowed,
-                    onCheckedChange = { tempIsBiometricAllowed = it },
-                )
-            },
             onClick = { },
+            title = stringResource(R.string.change_4_digit_code)
         )
         Spacer(modifier = Modifier.height(1.dp))
         ProfileSetting(
-            title = stringResource(R.string.change_4_digit_code),
-            onClick = { }
+            onClick = onRegistrationButtonClick,
+            title = stringResource(R.string.registration_for_bank_clients)
         )
         Spacer(modifier = Modifier.height(1.dp))
         ProfileSetting(
-            title = stringResource(R.string.registration_for_bank_clients),
-            onClick = onRegistrationButtonClicked
-        )
-        Spacer(modifier = Modifier.height(1.dp))
-        ProfileSetting(
-            title = stringResource(R.string.language),
+            onClick = { },
             subtitle = language.name,
-            onClick = { }
+            title = stringResource(R.string.language)
         )
         Spacer(modifier = Modifier.height(1.dp))
     }
+}
+
+@Composable
+fun MyPurchasesProfileSetting(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ProfileSetting(
+        onClick = onClick,
+        modifier = modifier,
+        title = null,
+        contentStart = {
+            Spacer(
+                modifier = Modifier
+                    .size(35.dp)
+                    .background(Color.Green, CircleShape)
+            )
+        }
+    )
 }
 
 @Composable
@@ -193,9 +208,10 @@ fun EmailProfileSetting(
     modifier: Modifier = Modifier,
 ) {
     ProfileSetting(
-        title = stringResource(R.string.email),
+        onClick = { },
         modifier = modifier,
-        contentBottom = {
+        title = stringResource(R.string.email),
+        contentStart = {
             if (email != null) {
                 Column {
                     Subtitle(text = email)
@@ -208,7 +224,25 @@ fun EmailProfileSetting(
                 }
             }
         },
-        onClick = { }
+    )
+}
+
+@Composable
+fun BiometricProfileSetting(
+    isBiometricAllowed: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    var tempIsBiometricAllowed by remember { mutableStateOf(isBiometricAllowed) }
+    ProfileSetting(
+        onClick = { },
+        modifier = modifier,
+        title = stringResource(R.string.login_by_biometrics),
+        contentEnd = {
+            Switch(
+                checked = tempIsBiometricAllowed,
+                onCheckedChange = { tempIsBiometricAllowed = it },
+            )
+        },
     )
 }
 
@@ -227,7 +261,7 @@ private fun ProfilePreview() {
             isBiometricAuthAllowed = true,
             language = Language.RUSSIAN,
         ),
-        onMyPurchasesButtonClicked = {},
-        onRegistrationButtonClicked = {},
+        onMyPurchasesButtonClick = {},
+        onRegistrationButtonClick = {},
     )
 }

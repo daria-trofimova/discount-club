@@ -23,29 +23,29 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProfileSetting(
-    title: String,
-    subtitle: String,
     onClick: () -> Unit,
+    subtitle: String,
     modifier: Modifier = Modifier,
+    title: String? = null,
     contentEnd: @Composable ProfileSettingScope.() -> Unit = { ArrowRightIcon() },
 ) {
     ProfileSetting(
-        title = title,
         onClick = onClick,
-        contentBottom = {
+        modifier = modifier,
+        title = title,
+        contentStart = {
             Subtitle(text = subtitle)
         },
         contentEnd = contentEnd,
-        modifier = modifier,
     )
 }
 
 @Composable
 fun ProfileSetting(
-    title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentBottom: @Composable ProfileSettingScope.() -> Unit = {},
+    title: String? = null,
+    contentStart: @Composable ProfileSettingScope.() -> Unit = {},
     contentEnd: @Composable ProfileSettingScope.() -> Unit = { ArrowRightIcon() },
 ) {
     val scope = remember { ProfileSettingScope() }
@@ -62,11 +62,13 @@ fun ProfileSetting(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontSize = 16.sp
-                )
-                scope.contentBottom()
+                if (title != null) {
+                    Text(
+                        text = title,
+                        fontSize = 16.sp
+                    )
+                }
+                scope.contentStart()
             }
             scope.contentEnd()
         }
