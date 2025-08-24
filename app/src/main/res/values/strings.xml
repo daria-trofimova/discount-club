@@ -4,4 +4,11 @@
     <string name="profile">Profile</string>
     <string name="registration">Registration</string>
     <string name="my_purchases">My purchases</string>
+    <string name="registration_for_bank_clients">Registration for bank clients</string>
+    <string name="edit_first_and_last_name">Edit first and last name</string>
+    <string name="settings">Settings</string>
+    <string name="email">E-mail</string>
+    <string name="login_by_biometrics">Login by biometrics</string>
+    <string name="language">Language</string>
+    <string name="change_4_digit_code">Change 4-digit code</string>
 </resources>

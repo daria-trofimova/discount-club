@@ -13,7 +13,13 @@ class LoginRepository @Inject constructor(
     override suspend fun login(
         parameters: LoginParameters,
     ): Result<Unit> {
-        userLocalDataSource.setUser(User(name = parameters.name, lastName = parameters.lastName))
+        val user = User(
+            phoneNumber = "+15550000000",
+            name = parameters.name,
+            lastName = parameters.lastName,
+            email = "example@mail.com",
+        )
+        userLocalDataSource.updateUser(user)
         return Result.success(Unit)
     }
 }

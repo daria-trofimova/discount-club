@@ -9,13 +9,21 @@ import javax.inject.Singleton
 
 @Singleton
 class UserLocalDataSource @Inject constructor() {
-    private val user = MutableStateFlow<User?>(null)
+    private val user =
+        MutableStateFlow<User?>(
+            User(
+                phoneNumber = "+15550000000",
+                name = null,
+                lastName = null,
+                email = "example@mail.com",
+            )
+        )
 
     fun getUser(): Flow<User?> {
         return user.asStateFlow()
     }
 
-    suspend fun setUser(user: User) {
+    suspend fun updateUser(user: User) {
         this.user.emit(user)
     }
 }

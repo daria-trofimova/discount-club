@@ -4,4 +4,11 @@
     <string name="profile">Профиль</string>
     <string name="registration">Регистрация</string>
     <string name="my_purchases">Мои покупки</string>
+    <string name="registration_for_bank_clients">Регистрация для клиентов банка</string>
+    <string name="edit_first_and_last_name">Редактировать имя и фамилию</string>
+    <string name="settings">Настройки</string>
+    <string name="email">E-mail</string>
+    <string name="login_by_biometrics">Вход по биометрии</string>
+    <string name="language">Язык</string>
+    <string name="change_4_digit_code">Сменить 4-х значный код</string>
 </resources>

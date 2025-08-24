@@ -2,35 +2,44 @@ package com.example.discountclub.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.discountclub.domain.GetSettingsUseCase
 import com.example.discountclub.domain.GetUserUseCase
+import com.example.discountclub.domain.model.Settings
+import com.example.discountclub.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<ProfileUiState> =
         MutableStateFlow(ProfileUiState.Loading)
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
 
     init {
-        loadUser()
+        observeProfileData()
     }
 
-    private fun loadUser() {
+    private fun observeProfileData() {
         viewModelScope.launch {
-            getUserUseCase().collect { user ->
-                user?.let {
-                    _uiState.value =
-                        ProfileUiState.Authenticated(name = it.name, lastName = it.lastName)
-                } ?: run {
-                    _uiState.value = ProfileUiState.Unauthenticated
+            combine(getUserUseCase(), getSettingsUseCase()) { user, settings ->
+                if (user != null) {
+                    ProfileUiState.Authenticated(
+                        user = user,
+                        settings = settings,
+                    )
+                } else {
+                    ProfileUiState.UnAuthenticated
                 }
+            }.collect { newState ->
+                _uiState.value = newState
             }
         }
     }
@@ -38,6 +47,9 @@ class ProfileViewModel @Inject constructor(
 
 sealed class ProfileUiState {
     data object Loading : ProfileUiState()
-    data object Unauthenticated : ProfileUiState()
-    data class Authenticated(val name: String, val lastName: String) : ProfileUiState()
+    data object UnAuthenticated : ProfileUiState()
+    data class Authenticated(
+        val user: User,
+        val settings: Settings,
+    ) : ProfileUiState()
 }
