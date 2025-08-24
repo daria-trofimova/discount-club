@@ -83,16 +83,14 @@ private fun Profile(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .background(Color.White)
+            .padding(16.dp),
     ) {
         Spacer(modifier = Modifier.height(24.dp))
-        if (user.name != null && user.lastName != null) {
-            UserFullName(name = user.name, lastName = user.lastName)
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = user.phoneNumber,
-            fontSize = 14.sp
+        ProfileInfo(
+            name = user.name,
+            lastName = user.lastName,
+            phoneNumber = user.phoneNumber,
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
@@ -108,6 +106,25 @@ private fun Profile(
             isBiometricAllowed = settings.isBiometricAuthAllowed,
             language = settings.language,
             onRegistrationButtonClick = onRegistrationButtonClick,
+        )
+    }
+}
+
+@Composable
+fun ProfileInfo(
+    name: String?,
+    lastName: String?,
+    phoneNumber: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        if (name != null && lastName != null) {
+            UserFullName(name = name, lastName = lastName)
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = phoneNumber,
+            fontSize = 14.sp
         )
     }
 }
@@ -162,27 +179,26 @@ private fun ProfileSettings(
             email = email,
             isEmailConfirmed = isEmailConfirmed,
         )
-        Spacer(modifier = Modifier.height(1.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         BiometricProfileSetting(
             isBiometricAllowed = isBiometricAllowed,
         )
-        Spacer(modifier = Modifier.height(1.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         ProfileSetting(
             onClick = { },
             title = stringResource(R.string.change_4_digit_code)
         )
-        Spacer(modifier = Modifier.height(1.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         ProfileSetting(
             onClick = onRegistrationButtonClick,
             title = stringResource(R.string.registration_for_bank_clients)
         )
-        Spacer(modifier = Modifier.height(1.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         ProfileSetting(
             onClick = { },
             subtitle = language.name,
             title = stringResource(R.string.language)
         )
-        Spacer(modifier = Modifier.height(1.dp))
     }
 }
 
@@ -199,7 +215,7 @@ fun MyPurchasesProfileSetting(
             Spacer(
                 modifier = Modifier
                     .size(35.dp)
-                    .background(Color.Green, CircleShape)
+                    .background(Color.Gray, CircleShape)
             )
         }
     )
