@@ -9,4 +9,5 @@ fun User.toDomainUser(): DomainUser =
         name = name,
         lastName = lastName,
         email = email,
+        isEmailConfirmed = isEmailConfirmed,
     )
