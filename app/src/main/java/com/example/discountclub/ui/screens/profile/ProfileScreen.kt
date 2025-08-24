@@ -79,8 +79,8 @@ private fun Profile(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
             .verticalScroll(rememberScrollState())
+            .padding(16.dp)
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         if (user.name != null && user.lastName != null) {
