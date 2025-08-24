@@ -18,6 +18,7 @@ class LoginRepository @Inject constructor(
             name = parameters.name,
             lastName = parameters.lastName,
             email = "example@mail.com",
+            isEmailConfirmed = false,
         )
         userLocalDataSource.updateUser(user)
         return Result.success(Unit)

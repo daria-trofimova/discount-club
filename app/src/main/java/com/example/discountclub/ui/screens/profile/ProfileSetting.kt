@@ -13,8 +13,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,29 +25,32 @@ import androidx.compose.ui.unit.sp
 fun ProfileSetting(
     title: String,
     subtitle: String,
-    contentEnd: @Composable () -> Unit = { ArrowRightIcon() },
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    contentEnd: @Composable ProfileSettingScope.() -> Unit = { ArrowRightIcon() },
 ) {
     ProfileSetting(
-        title = title, contentBottom = {
-            Text(
-                text = subtitle,
-                fontSize = 14.sp
-            )
-        }, contentEnd = contentEnd,
-        onClick = onClick
+        title = title,
+        onClick = onClick,
+        contentBottom = {
+            Subtitle(text = subtitle)
+        },
+        contentEnd = contentEnd,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun ProfileSetting(
     title: String,
-    contentBottom: @Composable () -> Unit = {},
-    contentEnd: @Composable () -> Unit = { ArrowRightIcon() },
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    contentBottom: @Composable ProfileSettingScope.() -> Unit = {},
+    contentEnd: @Composable ProfileSettingScope.() -> Unit = { ArrowRightIcon() },
 ) {
+    val scope = remember { ProfileSettingScope() }
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(5.dp)
@@ -61,20 +66,38 @@ fun ProfileSetting(
                     text = title,
                     fontSize = 16.sp
                 )
-                contentBottom()
+                scope.contentBottom()
             }
-            contentEnd()
+            scope.contentEnd()
         }
     }
 }
 
-@Composable
-fun ArrowRightIcon() {
-    Icon(
-        imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-        contentDescription = null,
-        modifier = Modifier.size(20.dp)
-    )
+class ProfileSettingScope {
+    @Composable
+    fun ArrowRightIcon(
+        modifier: Modifier = Modifier,
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+            contentDescription = null,
+            modifier = modifier.size(20.dp)
+        )
+    }
+
+    @Composable
+    fun Subtitle(
+        text: String,
+        modifier: Modifier = Modifier,
+        color: Color = Color.Black,
+    ) {
+        Text(
+            text = text,
+            fontSize = 14.sp,
+            color = color,
+            modifier = modifier
+        )
+    }
 }
 
 @Preview
@@ -83,6 +106,6 @@ private fun ProfileSettingPreview() {
     ProfileSetting(
         title = "Title",
         subtitle = "Subtitle",
-        onClick = {}
+        onClick = {},
     )
 }

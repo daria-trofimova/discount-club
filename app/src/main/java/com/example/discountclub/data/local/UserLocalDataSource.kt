@@ -16,6 +16,7 @@ class UserLocalDataSource @Inject constructor() {
                 name = null,
                 lastName = null,
                 email = "example@mail.com",
+                isEmailConfirmed = false,
             )
         )
 

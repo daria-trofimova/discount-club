@@ -10,4 +10,5 @@
     <string name="login_by_biometrics">Вход по биометрии</string>
     <string name="language">Язык</string>
     <string name="change_4_digit_code">Сменить 4-х значный код</string>
+    <string name="need_to_confirm">Необходимо подтвредить</string>
 </resources>

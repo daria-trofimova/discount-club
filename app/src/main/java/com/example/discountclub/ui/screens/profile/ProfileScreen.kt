@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,9 +99,9 @@ private fun Profile(
             onClick = onMyPurchasesButtonClicked,
         )
         Spacer(modifier = Modifier.height(24.dp))
-        Spacer(modifier = Modifier.height(12.dp))
         ProfileSettings(
             email = user.email,
+            isEmailConfirmed = user.isEmailConfirmed,
             isBiometricAllowed = settings.isBiometricAuthAllowed,
             language = settings.language,
             onRegistrationButtonClicked = onRegistrationButtonClicked,
@@ -138,6 +139,7 @@ private fun UserFullName(
 @Composable
 private fun ProfileSettings(
     email: String?,
+    isEmailConfirmed: Boolean,
     isBiometricAllowed: Boolean,
     language: Language,
     onRegistrationButtonClicked: () -> Unit,
@@ -148,10 +150,9 @@ private fun ProfileSettings(
             text = stringResource(R.string.settings),
             fontSize = 14.sp,
         )
-        ProfileSetting(
-            title = stringResource(R.string.email),
-            subtitle = email ?: "",
-            onClick = { }
+        EmailProfileSetting(
+            email = email,
+            isEmailConfirmed = isEmailConfirmed,
         )
         Spacer(modifier = Modifier.height(1.dp))
         var tempIsBiometricAllowed by remember { mutableStateOf(isBiometricAllowed) }
@@ -185,6 +186,32 @@ private fun ProfileSettings(
     }
 }
 
+@Composable
+fun EmailProfileSetting(
+    email: String?,
+    isEmailConfirmed: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    ProfileSetting(
+        title = stringResource(R.string.email),
+        modifier = modifier,
+        contentBottom = {
+            if (email != null) {
+                Column {
+                    Subtitle(text = email)
+                    if (!isEmailConfirmed) {
+                        Subtitle(
+                            text = stringResource(R.string.need_to_confirm),
+                            color = Color.Red,
+                        )
+                    }
+                }
+            }
+        },
+        onClick = { }
+    )
+}
+
 @Preview
 @Composable
 private fun ProfilePreview() {
@@ -194,6 +221,7 @@ private fun ProfilePreview() {
             name = "John",
             lastName = "Doe",
             email = "example@mail.com",
+            isEmailConfirmed = false,
         ),
         settings = Settings(
             isBiometricAuthAllowed = true,

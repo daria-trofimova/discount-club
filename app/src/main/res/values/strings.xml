@@ -10,4 +10,5 @@
     <string name="login_by_biometrics">Login by biometrics</string>
     <string name="language">Language</string>
     <string name="change_4_digit_code">Change 4-digit code</string>
+    <string name="need_to_confirm">Need to confirm</string>
 </resources>
