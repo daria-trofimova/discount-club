@@ -28,12 +28,7 @@ fun DiscountClubApp() {
                 onNavigateToRegistration = { navController.navigate(Screen.Registration.name) },
                 onNavigateToMyPurchases = { navController.navigate(Screen.MyPurchases.name) },
             )
-            registrationScreen(onRegistrationCompleted = {
-                navController.popBackStack(
-                    route = Screen.Profile.name,
-                    inclusive = false
-                )
-            })
+            registrationScreen(onNavigateBack = { navController.navigateUp() })
             myPurchasesScreen()
         }
     }
@@ -41,23 +36,21 @@ fun DiscountClubApp() {
 
 private fun NavGraphBuilder.profileScreen(
     onNavigateToRegistration: () -> Unit,
-    onNavigateToMyPurchases: () -> Unit
+    onNavigateToMyPurchases: () -> Unit,
 ) {
     composable(route = Screen.Profile.name) {
         ProfileScreen(
             onNavigateToRegistration = onNavigateToRegistration,
-            onNavigateToMyPurchases = onNavigateToMyPurchases
+            onNavigateToMyPurchases = onNavigateToMyPurchases,
         )
     }
 }
 
 private fun NavGraphBuilder.registrationScreen(
-    onRegistrationCompleted: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     composable(route = Screen.Registration.name) {
-        RegistrationScreen(
-            onRegistrationCompleted = onRegistrationCompleted
-        )
+        RegistrationScreen(onNavigateBack = onNavigateBack)
     }
 }
 
