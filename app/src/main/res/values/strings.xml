@@ -2,7 +2,6 @@
     <string name="app_name">DiscountClub</string>
     <string name="navigate_back">Navigate back</string>
     <string name="profile">Profile</string>
-    <string name="registration">Registration</string>
     <string name="my_purchases">My purchases</string>
     <string name="registration_for_bank_clients">Registration for bank clients</string>
     <string name="edit_first_and_last_name">Edit first and last name</string>

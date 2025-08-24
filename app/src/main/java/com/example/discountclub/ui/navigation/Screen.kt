@@ -7,6 +7,6 @@ enum class Screen(
     @StringRes val titleResId: Int,
 ) {
     Profile(titleResId = R.string.profile),
-    Registration(titleResId = R.string.registration),
+    Registration(titleResId = R.string.registration_for_bank_clients),
     MyPurchases(titleResId = R.string.my_purchases),
 }

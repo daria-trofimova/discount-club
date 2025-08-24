@@ -2,7 +2,6 @@
     <string name="app_name">Discount Club</string>
     <string name="navigate_back">Назад</string>
     <string name="profile">Профиль</string>
-    <string name="registration">Регистрация</string>
     <string name="my_purchases">Мои покупки</string>
     <string name="registration_for_bank_clients">Регистрация для клиентов банка</string>
     <string name="edit_first_and_last_name">Редактировать имя и фамилию</string>
