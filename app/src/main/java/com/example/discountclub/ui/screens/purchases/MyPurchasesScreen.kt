@@ -24,7 +24,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.discountclub.R
 import com.example.discountclub.domain.model.DatePurchases
+import com.example.discountclub.domain.model.PurchaseItem
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -34,7 +36,7 @@ fun MyPurchasesScreen(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     when (val state = uiState.value) {
-        is MyPurchasesUiState.Loading -> LoadingMyPurchases()
+        is MyPurchasesUiState.Loading -> LoadingMyPurchases(modifier = modifier)
         is MyPurchasesUiState.Success -> MyPurchases(
             purchasesByDate = state.purchasesByDate,
             modifier = modifier,
@@ -54,6 +56,7 @@ private fun LoadingMyPurchases(
     }
 }
 
+// TODO: Optimize for long, nested lists
 @Composable
 private fun MyPurchases(
     purchasesByDate: List<DatePurchases>,
@@ -81,29 +84,45 @@ private fun DatePurchases(
     datePurchases: DatePurchases,
     modifier: Modifier = Modifier,
 ) {
-    val dateFormatter = remember { SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()) }
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
     ) {
-        Text(
-            text = dateFormatter.format(datePurchases.date),
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+        PurchaseDate(date = datePurchases.date)
         Column {
             datePurchases.items.forEach { item ->
                 key(item.name) {
-                    Text(
-                        text = item.name,
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    PurchaseItem(item)
                 }
             }
         }
     }
+}
+
+@Composable
+private fun PurchaseDate(
+    date: Date,
+    modifier: Modifier = Modifier,
+) {
+    val dateFormatter = remember { SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()) }
+    Text(
+        text = dateFormatter.format(date),
+        style = MaterialTheme.typography.titleMedium,
+        textAlign = TextAlign.Center,
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun PurchaseItem(
+    item: PurchaseItem,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = item.name,
+        style = MaterialTheme.typography.bodyMedium,
+        textAlign = TextAlign.Center,
+        modifier = modifier.fillMaxWidth()
+    )
 }
