@@ -118,7 +118,10 @@ private fun UserFullName(
     lastName: String,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier, verticalAlignment = Alignment.Bottom) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.Bottom
+    ) {
         Column {
             Text(
                 text = name,
@@ -129,13 +132,14 @@ private fun UserFullName(
                 fontSize = 20.sp
             )
         }
-        IconButton(onClick = {}) {
-            Icon(
-                imageVector = Icons.Filled.Edit,
-                contentDescription = stringResource(R.string.edit_first_and_last_name),
-                modifier = Modifier.size(20.dp)
-            )
-        }
+        Icon(
+            imageVector = Icons.Filled.Edit,
+            contentDescription = stringResource(R.string.edit_first_and_last_name),
+            modifier = Modifier
+                .size(20.dp)
+                .clickable { }
+
+        )
     }
 }
 
