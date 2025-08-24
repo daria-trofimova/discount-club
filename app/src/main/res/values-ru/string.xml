@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Discount Club</string>
+    <string name="profile">Профиль</string>
+    <string name="registration">Регистрация</string>
     <string name="my_purchases">Мои покупки</string>
 </resources>
