@@ -47,7 +47,21 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    ProfileScreen(
+        uiState = uiState,
+        onNavigateToRegistration = onNavigateToRegistration,
+        onNavigateToMyPurchases = onNavigateToMyPurchases,
+        modifier = modifier,
+    )
+}
 
+@Composable
+private fun ProfileScreen(
+    uiState: ProfileUiState,
+    onNavigateToRegistration: () -> Unit,
+    onNavigateToMyPurchases: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     when (uiState) {
         is ProfileUiState.Loading -> LoadingProfile(modifier)
         is ProfileUiState.UnAuthenticated -> {
@@ -55,7 +69,7 @@ fun ProfileScreen(
         }
 
         is ProfileUiState.Authenticated -> ProfileContent(
-            state = uiState as ProfileUiState.Authenticated,
+            state = uiState,
             onMyPurchasesButtonClick = onNavigateToMyPurchases,
             onRegistrationButtonClick = onNavigateToRegistration,
             modifier = modifier,
