@@ -232,15 +232,22 @@ private fun MyPurchasesProfileSetting(
         modifier = modifier,
         title = null,
         contentStart = {
-            Spacer(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        CircleShape
-                    ),
-            )
+            IconPlaceholder()
         }
+    )
+}
+
+@Composable
+private fun IconPlaceholder(
+    modifier: Modifier = Modifier,
+) {
+    Spacer(
+        modifier = modifier
+            .size(40.dp)
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+                CircleShape
+            )
     )
 }
 
