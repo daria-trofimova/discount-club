@@ -1,6 +1,7 @@
 package com.example.discountclub.ui.screens.registration
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import com.example.discountclub.R
 import com.example.discountclub.ui.components.DiscountClubButton
 import com.example.discountclub.ui.components.DiscountClubTextField
 import com.example.discountclub.ui.components.LoadingOverlay
+import com.example.discountclub.ui.extensions.appendAnnotation
 
 @Composable
 fun RegistrationScreen(
@@ -96,16 +98,15 @@ private fun RegistrationScreenContent(
             .padding(horizontal = 24.dp, vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RegistrationFormFields(
+        RegistrationForm(
             form = state.form,
             onParticipantNumberChange = onParticipantNumberChange,
             onCodeChange = onCodeChange,
             onNameChange = onNameChange,
             onLastNameChange = onLastNameChange,
         )
-
         Spacer(modifier = Modifier.height(32.dp))
-        RegistrationTerms()
+        ParticipationTerms()
         Spacer(modifier = Modifier.height(16.dp))
         DiscountClubButton(
             text = stringResource(R.string.continue_),
@@ -117,43 +118,7 @@ private fun RegistrationScreenContent(
 }
 
 @Composable
-private fun RegistrationTerms(
-    modifier: Modifier = Modifier,
-) {
-    val start = stringResource(R.string.by_clicking_the_continue_button)
-    val end = stringResource(R.string.terms_of_participation)
-    val annotatedString = buildAnnotatedString {
-        append(start)
-        append(" ")
-        val linkStart = length
-        append(end)
-        val linkEnd = length
-        addStyle(
-            style = SpanStyle(
-                color = MaterialTheme.colorScheme.primary,
-                textDecoration = TextDecoration.Underline
-            ),
-            start = linkStart,
-            end = linkEnd
-        )
-        addStringAnnotation(
-            tag = end,
-            annotation = end,
-            start = linkStart,
-            end = linkEnd
-        )
-    }
-    Text(
-        text = annotatedString,
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        textAlign = TextAlign.Center,
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun RegistrationFormFields(
+private fun RegistrationForm(
     form: RegistrationForm,
     onParticipantNumberChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
@@ -201,6 +166,33 @@ private fun RegistrationFormFields(
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+private fun ParticipationTerms(
+    modifier: Modifier = Modifier,
+) {
+    val annotatedString = buildAnnotatedString {
+        append(stringResource(R.string.by_clicking_the_continue_button))
+        append(" ")
+        appendAnnotation(
+            text = stringResource(R.string.terms_of_participation),
+            style = SpanStyle(
+                color = MaterialTheme.colorScheme.primary,
+                textDecoration = TextDecoration.Underline
+            ),
+            tag = "terms_of_participant",
+        )
+    }
+    Text(
+        text = annotatedString,
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        textAlign = TextAlign.Center,
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { }
+    )
 }
 
 @Preview
