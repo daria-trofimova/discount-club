@@ -9,13 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,18 +25,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.discountclub.R
 import com.example.discountclub.domain.model.Language
 import com.example.discountclub.domain.model.Settings
 import com.example.discountclub.domain.model.User
-import com.example.discountclub.ui.LoadingOverlay
+import com.example.discountclub.ui.components.DiscountClubSwitch
+import com.example.discountclub.ui.components.LoadingOverlay
 
 @Composable
 fun ProfileScreen(
@@ -77,23 +77,24 @@ private fun Profile(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         ProfileInfo(
             name = user.name,
             lastName = user.lastName,
             phoneNumber = user.phoneNumber,
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Text(
             text = stringResource(R.string.my_purchases),
-            fontSize = 16.sp
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         MyPurchasesProfileSetting(onClick = onMyPurchasesButtonClick)
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         ProfileSettings(
             email = user.email,
             isEmailConfirmed = user.isEmailConfirmed,
@@ -112,45 +113,46 @@ fun ProfileInfo(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        if (name != null && lastName != null) {
-            UserFullName(name = name, lastName = lastName)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+        UserFullName(name = name, lastName = lastName)
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = phoneNumber,
-            fontSize = 14.sp
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
 
 @Composable
 private fun UserFullName(
-    name: String,
-    lastName: String,
+    name: String?,
+    lastName: String?,
     modifier: Modifier = Modifier,
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        Column {
+    Column(modifier = modifier) {
+        Text(
+            text = name ?: stringResource(R.string.name),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                text = name,
-                fontSize = 20.sp
+                text = lastName ?: stringResource(R.string.last_name),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground,
             )
-            Text(
-                text = lastName,
-                fontSize = 20.sp
+            Spacer(modifier = Modifier.width(12.dp))
+            Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = stringResource(R.string.edit_first_and_last_name),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { }
             )
         }
-        Icon(
-            imageVector = Icons.Filled.Edit,
-            contentDescription = stringResource(R.string.edit_first_and_last_name),
-            modifier = Modifier
-                .size(20.dp)
-                .clickable { }
-
-        )
     }
 }
 
@@ -166,31 +168,32 @@ private fun ProfileSettings(
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.settings),
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         EmailProfileSetting(
             email = email,
             isEmailConfirmed = isEmailConfirmed,
         )
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         BiometricProfileSetting(
             isBiometricAllowed = isBiometricAllowed,
         )
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         ProfileSetting(
             onClick = { },
             title = stringResource(R.string.change_4_digit_code)
         )
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         ProfileSetting(
             onClick = onRegistrationButtonClick,
             title = stringResource(R.string.registration_for_bank_clients)
         )
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         ProfileSetting(
             onClick = { },
-            subtitle = language.name,
+            subtitle = language.asString(),
             title = stringResource(R.string.language)
         )
     }
@@ -208,8 +211,11 @@ fun MyPurchasesProfileSetting(
         contentStart = {
             Spacer(
                 modifier = Modifier
-                    .size(35.dp)
-                    .background(Color.Gray, CircleShape)
+                    .size(40.dp)
+                    .background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        CircleShape
+                    ),
             )
         }
     )
@@ -232,7 +238,7 @@ fun EmailProfileSetting(
                     if (!isEmailConfirmed) {
                         Subtitle(
                             text = stringResource(R.string.need_to_confirm),
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                         )
                     }
                 }
@@ -252,8 +258,8 @@ fun BiometricProfileSetting(
         modifier = modifier,
         title = stringResource(R.string.login_by_biometrics),
         contentEnd = {
-            Switch(
-                checked = tempIsBiometricAllowed,
+            DiscountClubSwitch(
+                isChecked = tempIsBiometricAllowed,
                 onCheckedChange = { tempIsBiometricAllowed = it },
             )
         },
@@ -278,4 +284,9 @@ private fun ProfilePreview() {
         onMyPurchasesButtonClick = {},
         onRegistrationButtonClick = {},
     )
+}
+
+@Composable
+fun Language.asString(): String = when (this) {
+    Language.RUSSIAN -> stringResource(R.string.russian)
 }

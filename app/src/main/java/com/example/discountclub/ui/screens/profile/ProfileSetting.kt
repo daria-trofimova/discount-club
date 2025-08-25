@@ -3,14 +3,19 @@ package com.example.discountclub.ui.screens.profile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -19,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProfileSetting(
@@ -53,23 +57,34 @@ fun ProfileSetting(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        shape = RoundedCornerShape(5.dp)
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 if (title != null) {
                     Text(
                         text = title,
-                        fontSize = 16.sp
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
+                    if (contentStart != {}) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
                 }
                 scope.contentStart()
             }
+            Spacer(modifier = Modifier.width(12.dp))
             scope.contentEnd()
         }
     }
@@ -83,7 +98,8 @@ class ProfileSettingScope {
         Icon(
             imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
             contentDescription = null,
-            modifier = modifier.size(20.dp)
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = modifier.size(24.dp)
         )
     }
 
@@ -91,11 +107,11 @@ class ProfileSettingScope {
     fun Subtitle(
         text: String,
         modifier: Modifier = Modifier,
-        color: Color = Color.Black,
+        color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     ) {
         Text(
             text = text,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = color,
             modifier = modifier
         )
