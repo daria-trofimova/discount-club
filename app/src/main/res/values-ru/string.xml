@@ -10,7 +10,7 @@
     <string name="login_by_biometrics">Вход по биометрии</string>
     <string name="language">Язык</string>
     <string name="change_4_digit_code">Сменить 4-х значный код</string>
-    <string name="need_to_confirm">Необходимо подтвредить</string>
+    <string name="need_to_confirm">Необходимо подтвердить</string>
     <string name="by_clicking_the_continue_button">Нажимая кнопку продолжить,\nвы соглашаетесь с </string>
     <string name="terms_of_participation">условиями участия</string>
     <string name="continue_">Продолжить></string>
