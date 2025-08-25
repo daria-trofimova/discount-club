@@ -2,6 +2,7 @@ package com.example.discountclub.ui.screens.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,7 +51,7 @@ fun ProfileScreen(
 
     when (uiState) {
         is ProfileUiState.Loading -> LoadingProfile(modifier)
-        is ProfileUiState.UnAuthenticated -> { /* Handle unauthenticated state, e.g., navigate to login */
+        is ProfileUiState.UnAuthenticated -> { /* TODO: Handle unauthenticated state  */
         }
 
         is ProfileUiState.Authenticated -> ProfileContent(
@@ -146,7 +147,11 @@ private fun UserFullName(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { /* TODO: Implement navigation to edit profile */ }
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }) {
+                        /* TODO: Implement navigation to edit profile */
+                    }
             )
         }
     }

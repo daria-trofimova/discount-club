@@ -1,6 +1,5 @@
 package com.example.discountclub.ui.screens.profile
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -54,16 +53,16 @@ fun ProfileSetting(
 ) {
     val scope = remember { ProfileSettingScope() }
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
-        )
+        ),
+        onClick = onClick,
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
