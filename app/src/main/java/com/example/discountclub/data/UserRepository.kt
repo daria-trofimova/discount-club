@@ -26,7 +26,7 @@ class UserRepository @Inject constructor(
         val user = remoteDataSource.register(
             participantNumber = parameters.participantNumber,
             code = parameters.code,
-            name = parameters.name,
+            firstName = parameters.firstName,
             lastName = parameters.lastName,
         ).toLocalUser()
         localDataSource.updateUser(user)

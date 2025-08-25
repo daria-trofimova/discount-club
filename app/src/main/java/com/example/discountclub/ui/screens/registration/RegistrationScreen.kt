@@ -70,7 +70,7 @@ private fun RegistrationScreen(
             onSendIntent(RegistrationIntent.UpdateParticipantNumber(it))
         },
         onCodeChange = { onSendIntent(RegistrationIntent.UpdateCode(it)) },
-        onNameChange = { onSendIntent(RegistrationIntent.UpdateName(it)) },
+        onFirstNameChange = { onSendIntent(RegistrationIntent.UpdateFirstName(it)) },
         onLastNameChange = { onSendIntent(RegistrationIntent.UpdateLastName(it)) },
         onSubmitButtonClick = { onSendIntent(RegistrationIntent.Submit) },
         modifier = modifier,
@@ -85,7 +85,7 @@ private fun RegistrationScreenContent(
     state: RegistrationUiState,
     onParticipantNumberChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
-    onNameChange: (String) -> Unit,
+    onFirstNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
     onSubmitButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -102,7 +102,7 @@ private fun RegistrationScreenContent(
             form = state.form,
             onParticipantNumberChange = onParticipantNumberChange,
             onCodeChange = onCodeChange,
-            onNameChange = onNameChange,
+            onNameChange = onFirstNameChange,
             onLastNameChange = onLastNameChange,
         )
         Spacer(modifier = Modifier.height(32.dp))
@@ -150,10 +150,10 @@ private fun RegistrationForm(
         )
         Spacer(modifier = Modifier.height(20.dp))
         DiscountClubTextField(
-            value = form.name.text,
+            value = form.firstName.text,
             onValueChange = onNameChange,
-            label = stringResource(R.string.name),
-            hint = stringResource(R.string.name_in_latin_as_in_passport),
+            label = stringResource(R.string.first_name),
+            hint = stringResource(R.string.first_name_in_latin_as_in_passport),
             modifier = Modifier.fillMaxWidth(),
             imeAction = ImeAction.Next,
         )
@@ -203,13 +203,13 @@ fun RegistrationPreview() {
             RegistrationForm(
                 participantNumber = InputText.EMPTY,
                 code = InputText.EMPTY,
-                name = InputText.EMPTY,
+                firstName = InputText.EMPTY,
                 lastName = InputText.EMPTY,
             )
         ),
         onParticipantNumberChange = {},
         onCodeChange = {},
-        onNameChange = {},
+        onFirstNameChange = {},
         onLastNameChange = {},
         onSubmitButtonClick = {}
     )

@@ -14,14 +14,14 @@ class UserRemoteDataSource @Inject constructor(
     suspend fun register(
         participantNumber: String,
         code: String,
-        name: String,
+        firstName: String,
         lastName: String,
     ): UserResponse {
         return withContext(dispatcher) {
             delay(2000)
             UserResponse(
                 phoneNumber = "+15550000000",
-                name = name,
+                firstName = firstName,
                 lastName = lastName,
                 email = "example@mail.com",
                 isEmailConfirmed = false,

@@ -6,7 +6,7 @@ import com.example.discountclub.data.remote.model.UserResponse
 fun UserResponse.toLocalUser(): User {
     return User(
         phoneNumber = phoneNumber,
-        name = name,
+        firstName = firstName,
         lastName = lastName,
         email = email,
         isEmailConfirmed = isEmailConfirmed,

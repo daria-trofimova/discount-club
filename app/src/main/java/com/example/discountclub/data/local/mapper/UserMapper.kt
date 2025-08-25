@@ -6,7 +6,7 @@ import com.example.discountclub.domain.model.User as DomainUser
 fun User.toDomainUser(): DomainUser {
     return DomainUser(
         phoneNumber = phoneNumber,
-        name = name,
+        firstName = firstName,
         lastName = lastName,
         email = email,
         isEmailConfirmed = isEmailConfirmed,

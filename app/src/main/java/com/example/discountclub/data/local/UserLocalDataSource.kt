@@ -15,7 +15,7 @@ class UserLocalDataSource @Inject constructor() {
         MutableStateFlow<User?>(
             User(
                 phoneNumber = "+15550000000",
-                name = null,
+                firstName = null,
                 lastName = null,
                 email = "example@mail.com",
                 isEmailConfirmed = false,

@@ -100,7 +100,7 @@ private fun AuthenticatedProfile(
     ) {
         Spacer(Modifier.height(32.dp))
         ProfileHeader(
-            firstName = state.user.name,
+            firstName = state.user.firstName,
             lastName = state.user.lastName,
             phoneNumber = state.user.phoneNumber,
         )
@@ -151,7 +151,7 @@ private fun ProfileFullName(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = firstName ?: stringResource(R.string.name),
+            text = firstName ?: stringResource(R.string.first_name),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -298,7 +298,7 @@ private fun ProfilePreview() {
         state = ProfileUiState.Authenticated(
             user = User(
                 phoneNumber = "+15550000000",
-                name = "John",
+                firstName = "John",
                 lastName = "Doe",
                 email = "example@mail.com",
                 isEmailConfirmed = false,

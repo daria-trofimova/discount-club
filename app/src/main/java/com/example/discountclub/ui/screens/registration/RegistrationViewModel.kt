@@ -27,22 +27,12 @@ class RegistrationViewModel @Inject constructor(
     // TODO: debounce validation
     fun sendIntent(intent: RegistrationIntent) {
         when (intent) {
-            is RegistrationIntent.UpdateParticipantNumber -> {
+            is RegistrationIntent.UpdateParticipantNumber ->
                 updateUiState { it.updateParticipantNumber(intent.text) }
-            }
 
-            is RegistrationIntent.UpdateCode -> {
-                updateUiState { it.updateCode(intent.text) }
-            }
-
-            is RegistrationIntent.UpdateName -> {
-                updateUiState { it.updateName(intent.text) }
-            }
-
-            is RegistrationIntent.UpdateLastName -> {
-                updateUiState { it.updateLastName(intent.text) }
-            }
-
+            is RegistrationIntent.UpdateCode -> updateUiState { it.updateCode(intent.text) }
+            is RegistrationIntent.UpdateFirstName -> updateUiState { it.updateFirstName(intent.text) }
+            is RegistrationIntent.UpdateLastName -> updateUiState { it.updateLastName(intent.text) }
             is RegistrationIntent.Submit -> submitForm()
         }
     }
@@ -73,7 +63,7 @@ sealed class RegistrationUiState {
 sealed class RegistrationIntent {
     class UpdateParticipantNumber(val text: String) : RegistrationIntent()
     class UpdateCode(val text: String) : RegistrationIntent()
-    class UpdateName(val text: String) : RegistrationIntent()
+    class UpdateFirstName(val text: String) : RegistrationIntent()
     class UpdateLastName(val text: String) : RegistrationIntent()
     data object Submit : RegistrationIntent()
 }
@@ -85,13 +75,13 @@ sealed class RegistrationEffect {
 data class RegistrationForm(
     val participantNumber: InputText,
     val code: InputText,
-    val name: InputText,
+    val firstName: InputText,
     val lastName: InputText,
 ) {
     val isValid: Boolean
         get() = participantNumber.isValid &&
                 code.isValid &&
-                name.isValid &&
+                firstName.isValid &&
                 lastName.isValid
 
     fun updateParticipantNumber(text: String): RegistrationForm {
@@ -103,8 +93,8 @@ data class RegistrationForm(
         return copy(code = InputText(text = text, error = NotBlankValidator.validate(text)))
     }
 
-    fun updateName(text: String): RegistrationForm {
-        return copy(name = InputText(text = text, error = NotBlankValidator.validate(text)))
+    fun updateFirstName(text: String): RegistrationForm {
+        return copy(firstName = InputText(text = text, error = NotBlankValidator.validate(text)))
     }
 
     fun updateLastName(text: String): RegistrationForm {
@@ -115,7 +105,7 @@ data class RegistrationForm(
         val EMPTY = RegistrationForm(
             participantNumber = InputText.EMPTY,
             code = InputText.EMPTY,
-            name = InputText.EMPTY,
+            firstName = InputText.EMPTY,
             lastName = InputText.EMPTY,
         )
     }
@@ -125,7 +115,7 @@ fun RegistrationForm.toRegistrationParameters(): RegistrationParameters {
     return RegistrationParameters(
         participantNumber = participantNumber.text,
         code = code.text,
-        name = name.text,
+        firstName = firstName.text,
         lastName = lastName.text,
     )
 }
