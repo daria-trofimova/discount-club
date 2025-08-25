@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
@@ -24,7 +25,7 @@ fun DiscountClubApp() {
     val titleResId = backStackEntry?.currentScreen?.titleResId
     Scaffold(topBar = {
         DiscountClubTopBar(
-            titleResId = titleResId,
+            title = titleResId?.let { stringResource(it) } ?: "",
             navigateUp = { navController.navigateUp() },
         )
     }) { innerPadding ->

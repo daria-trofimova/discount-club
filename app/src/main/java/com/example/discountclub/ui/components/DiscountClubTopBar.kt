@@ -1,6 +1,5 @@
 package com.example.discountclub.ui.components
 
-import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,15 +16,13 @@ import com.example.discountclub.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiscountClubTopBar(
-    @StringRes titleResId: Int?,
+    title: String,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(
         title = {
-            if (titleResId != null) {
-                Text(text = stringResource(titleResId))
-            }
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(onClick = navigateUp) {
@@ -42,7 +39,7 @@ fun DiscountClubTopBar(
 @Composable
 fun DiscountClubTopBarPreview() {
     DiscountClubTopBar(
-        titleResId = android.R.string.untitled,
+        title = "Title",
         navigateUp = {},
     )
 }
