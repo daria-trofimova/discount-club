@@ -2,6 +2,7 @@ package com.example.discountclub.ui.screens.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ import com.example.discountclub.domain.model.Settings
 import com.example.discountclub.domain.model.User
 import com.example.discountclub.ui.components.DiscountClubSwitch
 import com.example.discountclub.ui.components.LoadingOverlay
+import com.example.discountclub.ui.extensions.asString
 
 @Composable
 fun ProfileScreen(
@@ -44,13 +46,15 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    when (val currentUiState = uiState.value) {
-        is ProfileUiState.Loading -> LoadingProfile(modifier = modifier)
-        is ProfileUiState.UnAuthenticated -> {}
-        is ProfileUiState.Authenticated -> Profile(
-            user = currentUiState.user,
-            settings = currentUiState.settings,
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is ProfileUiState.Loading -> LoadingProfile(modifier)
+        is ProfileUiState.UnAuthenticated -> { /* Handle unauthenticated state, e.g., navigate to login */
+        }
+
+        is ProfileUiState.Authenticated -> ProfileContent(
+            state = uiState as ProfileUiState.Authenticated,
             onMyPurchasesButtonClick = onNavigateToMyPurchases,
             onRegistrationButtonClick = onNavigateToRegistration,
             modifier = modifier,
@@ -66,9 +70,8 @@ private fun LoadingProfile(
 }
 
 @Composable
-private fun Profile(
-    user: User,
-    settings: Settings,
+private fun ProfileContent(
+    state: ProfileUiState.Authenticated,
     onMyPurchasesButtonClick: () -> Unit,
     onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -80,43 +83,37 @@ private fun Profile(
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(Modifier.height(32.dp))
         ProfileInfo(
-            name = user.name,
-            lastName = user.lastName,
-            phoneNumber = user.phoneNumber,
+            user = state.user,
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(Modifier.height(40.dp))
         Text(
             text = stringResource(R.string.my_purchases),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
-        Spacer(modifier = Modifier.height(12.dp))
-        MyPurchasesProfileSetting(onClick = onMyPurchasesButtonClick)
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(Modifier.height(12.dp))
+        MyPurchasesProfileSetting(onMyPurchasesButtonClick)
+        Spacer(Modifier.height(32.dp))
         ProfileSettings(
-            email = user.email,
-            isEmailConfirmed = user.isEmailConfirmed,
-            isBiometricAllowed = settings.isBiometricAuthAllowed,
-            language = settings.language,
+            user = state.user,
+            settings = state.settings,
             onRegistrationButtonClick = onRegistrationButtonClick,
         )
     }
 }
 
 @Composable
-fun ProfileInfo(
-    name: String?,
-    lastName: String?,
-    phoneNumber: String,
+private fun ProfileInfo(
+    user: User,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        UserFullName(name = name, lastName = lastName)
-        Spacer(modifier = Modifier.height(12.dp))
+        UserFullName(user)
+        Spacer(Modifier.height(12.dp))
         Text(
-            text = phoneNumber,
+            text = user.phoneNumber,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -125,13 +122,12 @@ fun ProfileInfo(
 
 @Composable
 private fun UserFullName(
-    name: String?,
-    lastName: String?,
+    user: User,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Text(
-            text = name ?: stringResource(R.string.name),
+            text = user.name ?: stringResource(R.string.name),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -139,18 +135,18 @@ private fun UserFullName(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = lastName ?: stringResource(R.string.last_name),
+                text = user.lastName ?: stringResource(R.string.last_name),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(Modifier.width(12.dp))
             Icon(
                 imageVector = Icons.Filled.Edit,
                 contentDescription = stringResource(R.string.edit_first_and_last_name),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { }
+                    .clickable { /* TODO: Implement navigation to edit profile */ }
             )
         }
     }
@@ -158,10 +154,8 @@ private fun UserFullName(
 
 @Composable
 private fun ProfileSettings(
-    email: String?,
-    isEmailConfirmed: Boolean,
-    isBiometricAllowed: Boolean,
-    language: Language,
+    user: User,
+    settings: Settings,
     onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -171,36 +165,36 @@ private fun ProfileSettings(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
         EmailProfileSetting(
-            email = email,
-            isEmailConfirmed = isEmailConfirmed,
+            email = user.email,
+            isEmailConfirmed = user.isEmailConfirmed,
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
         BiometricProfileSetting(
-            isBiometricAllowed = isBiometricAllowed,
+            isBiometricAllowed = settings.isBiometricAuthAllowed,
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
         ProfileSetting(
-            onClick = { },
+            onClick = { /* TODO: Implement change 4-digit code */ },
             title = stringResource(R.string.change_4_digit_code)
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
         ProfileSetting(
             onClick = onRegistrationButtonClick,
             title = stringResource(R.string.registration_for_bank_clients)
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(12.dp))
         ProfileSetting(
-            onClick = { },
-            subtitle = language.asString(),
+            onClick = { /* TODO: Implement language selection */ },
+            subtitle = settings.language.asString(),
             title = stringResource(R.string.language)
         )
     }
 }
 
 @Composable
-fun MyPurchasesProfileSetting(
+private fun MyPurchasesProfileSetting(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -222,19 +216,21 @@ fun MyPurchasesProfileSetting(
 }
 
 @Composable
-fun EmailProfileSetting(
+private fun EmailProfileSetting(
     email: String?,
     isEmailConfirmed: Boolean,
     modifier: Modifier = Modifier,
 ) {
     ProfileSetting(
-        onClick = { },
+        onClick = { /* TODO: Implement email editing */ },
         modifier = modifier,
         title = stringResource(R.string.email),
         contentStart = {
-            if (email != null) {
-                Column {
-                    Subtitle(text = email)
+            email?.let {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Subtitle(text = it)
                     if (!isEmailConfirmed) {
                         Subtitle(
                             text = stringResource(R.string.need_to_confirm),
@@ -248,16 +244,16 @@ fun EmailProfileSetting(
 }
 
 @Composable
-fun BiometricProfileSetting(
+private fun BiometricProfileSetting(
     isBiometricAllowed: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    var tempIsBiometricAllowed by remember { mutableStateOf(isBiometricAllowed) }
     ProfileSetting(
         onClick = { },
         modifier = modifier,
         title = stringResource(R.string.login_by_biometrics),
         contentEnd = {
+            var tempIsBiometricAllowed by remember { mutableStateOf(isBiometricAllowed) }
             DiscountClubSwitch(
                 isChecked = tempIsBiometricAllowed,
                 onCheckedChange = { tempIsBiometricAllowed = it },
@@ -269,24 +265,21 @@ fun BiometricProfileSetting(
 @Preview
 @Composable
 private fun ProfilePreview() {
-    Profile(
-        user = User(
-            phoneNumber = "+15550000000",
-            name = "John",
-            lastName = "Doe",
-            email = "example@mail.com",
-            isEmailConfirmed = false,
-        ),
-        settings = Settings(
-            isBiometricAuthAllowed = true,
-            language = Language.RUSSIAN,
+    ProfileContent(
+        state = ProfileUiState.Authenticated(
+            user = User(
+                phoneNumber = "+15550000000",
+                name = "John",
+                lastName = "Doe",
+                email = "example@mail.com",
+                isEmailConfirmed = false,
+            ),
+            settings = Settings(
+                isBiometricAuthAllowed = true,
+                language = Language.RUSSIAN,
+            )
         ),
         onMyPurchasesButtonClick = {},
         onRegistrationButtonClick = {},
     )
-}
-
-@Composable
-fun Language.asString(): String = when (this) {
-    Language.RUSSIAN -> stringResource(R.string.russian)
 }
