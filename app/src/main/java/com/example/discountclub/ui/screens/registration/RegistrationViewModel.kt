@@ -167,7 +167,7 @@ class InputText(
     companion object {
         val EMPTY = InputText(
             text = "",
-            error = null
+            error = ValidationError.EmptyOrBlankError,
         )
     }
 }
