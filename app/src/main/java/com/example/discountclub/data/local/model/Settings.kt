@@ -1,4 +1,4 @@
-package com.example.discountclub.domain.model
+package com.example.discountclub.data.local.model
 
 data class Settings(
     val language: Language,

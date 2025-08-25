@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.discountclub.R
-import com.example.discountclub.domain.model.Language
 import com.example.discountclub.domain.model.Settings
 import com.example.discountclub.domain.model.User
 import com.example.discountclub.ui.components.DiscountClubSwitch
@@ -282,7 +281,7 @@ private fun ProfilePreview() {
             ),
             settings = Settings(
                 isBiometricAuthAllowed = true,
-                language = Language.RUSSIAN,
+                language = Settings.Language.RUSSIAN,
             )
         ),
         onMyPurchasesButtonClick = {},
