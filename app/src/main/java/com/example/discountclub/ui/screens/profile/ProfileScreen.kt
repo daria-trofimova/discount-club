@@ -51,7 +51,8 @@ fun ProfileScreen(
 
     when (uiState) {
         is ProfileUiState.Loading -> LoadingProfile(modifier)
-        is ProfileUiState.UnAuthenticated -> { /* TODO: Handle unauthenticated state  */
+        is ProfileUiState.UnAuthenticated -> {
+            /* TODO: Handle unauthenticated state  */
         }
 
         is ProfileUiState.Authenticated -> ProfileContent(
