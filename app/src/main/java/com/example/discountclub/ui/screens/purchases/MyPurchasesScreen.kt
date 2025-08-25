@@ -17,12 +17,10 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.discountclub.R
 import com.example.discountclub.domain.model.DatePurchases
 import com.example.discountclub.domain.model.PurchaseItem
 import java.text.SimpleDateFormat
@@ -67,12 +65,6 @@ private fun MyPurchases(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.my_purchases),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-        }
         items(items = purchasesByDate, key = { it.date.time }) { datePurchases ->
             DatePurchases(datePurchases = datePurchases)
         }
@@ -108,7 +100,7 @@ private fun PurchaseDate(
     val dateFormatter = remember { SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()) }
     Text(
         text = dateFormatter.format(date),
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.titleSmall,
         textAlign = TextAlign.Center,
         modifier = modifier.fillMaxWidth()
     )
