@@ -68,7 +68,7 @@ private fun ProfileScreen(
             /* TODO: Handle unauthenticated state  */
         }
 
-        is ProfileUiState.Authenticated -> ProfileContent(
+        is ProfileUiState.Authenticated -> AuthenticatedProfile(
             state = uiState,
             onMyPurchasesButtonClick = onNavigateToMyPurchases,
             onRegistrationButtonClick = onNavigateToRegistration,
@@ -85,7 +85,7 @@ private fun LoadingProfile(
 }
 
 @Composable
-private fun ProfileContent(
+private fun AuthenticatedProfile(
     state: ProfileUiState.Authenticated,
     onMyPurchasesButtonClick: () -> Unit,
     onRegistrationButtonClick: () -> Unit,
@@ -99,8 +99,10 @@ private fun ProfileContent(
             .padding(16.dp),
     ) {
         Spacer(Modifier.height(32.dp))
-        ProfileInfo(
-            user = state.user,
+        ProfileHeader(
+            firstName = state.user.name,
+            lastName = state.user.lastName,
+            phoneNumber = state.user.phoneNumber,
         )
         Spacer(Modifier.height(40.dp))
         Text(
@@ -112,7 +114,8 @@ private fun ProfileContent(
         MyPurchasesProfileSetting(onMyPurchasesButtonClick)
         Spacer(Modifier.height(32.dp))
         ProfileSettings(
-            user = state.user,
+            email = state.user.email,
+            isEmailConfirmed = state.user.isEmailConfirmed,
             settings = state.settings,
             onRegistrationButtonClick = onRegistrationButtonClick,
         )
@@ -120,15 +123,20 @@ private fun ProfileContent(
 }
 
 @Composable
-private fun ProfileInfo(
-    user: User,
+private fun ProfileHeader(
+    firstName: String?,
+    lastName: String?,
+    phoneNumber: String,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        UserFullName(user)
+        ProfileFullName(
+            firstName = firstName,
+            lastName = lastName,
+        )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = user.phoneNumber,
+            text = phoneNumber,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -136,13 +144,14 @@ private fun ProfileInfo(
 }
 
 @Composable
-private fun UserFullName(
-    user: User,
+private fun ProfileFullName(
+    firstName: String?,
+    lastName: String?,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Text(
-            text = user.name ?: stringResource(R.string.name),
+            text = firstName ?: stringResource(R.string.name),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -150,7 +159,7 @@ private fun UserFullName(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = user.lastName ?: stringResource(R.string.last_name),
+                text = lastName ?: stringResource(R.string.last_name),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -173,7 +182,8 @@ private fun UserFullName(
 
 @Composable
 private fun ProfileSettings(
-    user: User,
+    email: String?,
+    isEmailConfirmed: Boolean,
     settings: Settings,
     onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -186,8 +196,8 @@ private fun ProfileSettings(
         )
         Spacer(Modifier.height(12.dp))
         EmailProfileSetting(
-            email = user.email,
-            isEmailConfirmed = user.isEmailConfirmed,
+            email = email,
+            isEmailConfirmed = isEmailConfirmed,
         )
         Spacer(Modifier.height(12.dp))
         BiometricProfileSetting(
@@ -284,7 +294,7 @@ private fun BiometricProfileSetting(
 @Preview
 @Composable
 private fun ProfilePreview() {
-    ProfileContent(
+    AuthenticatedProfile(
         state = ProfileUiState.Authenticated(
             user = User(
                 phoneNumber = "+15550000000",
