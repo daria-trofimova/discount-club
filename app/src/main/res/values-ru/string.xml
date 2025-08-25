@@ -13,7 +13,7 @@
     <string name="need_to_confirm">Необходимо подтвердить</string>
     <string name="by_clicking_the_continue_button">Нажимая кнопку продолжить,\nвы соглашаетесь с </string>
     <string name="terms_of_participation">условиями участия</string>
-    <string name="continue_">Продолжить></string>
+    <string name="continue_">Продолжить</string>
     <string name="participant_number">Номер участника</string>
     <string name="the_16_digit_number_you_received">Номер из 16 цифр, который вы получили от банка</string>
     <string name="code">Код</string>
