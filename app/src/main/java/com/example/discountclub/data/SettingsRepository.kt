@@ -13,7 +13,7 @@ class SettingsRepository @Inject constructor() : SettingsRepositoryApi {
         MutableStateFlow(
             Settings(
                 language = Language.RUSSIAN,
-                isBiometricAuthAllowed = false,
+                isBiometricAuthAllowed = true,
             )
         )
 
