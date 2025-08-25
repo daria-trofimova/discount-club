@@ -11,4 +11,15 @@
     <string name="language">Language</string>
     <string name="change_4_digit_code">Change 4-digit code</string>
     <string name="need_to_confirm">Need to confirm</string>
+    <string name="by_clicking_the_continue_button">By clicking the continue button,\nyou agree to the terms of participation</string>
+    <string name="continue_">Continue</string>
+    <string name="participant_number">Participant number</string>
+    <string name="the_16_digit_number_you_received">The 16-digit number you received from the bank</string>
+    <string name="code">Code</string>
+    <string name="the_code_you_received">The code you received from the bank</string>
+    <string name="name">Name</string>
+    <string name="name_in_latin_as_in_passport">Name (in Latin, as in passport)</string>
+    <string name="last_name">Last name</string>
+    <string name="last_name_in_latin_as_in_passport">Last name (in Latin, as in passport)</string>
+    <string name="the_number_must_contain_16_digits">The number must contain 16 digits</string>
 </resources>
