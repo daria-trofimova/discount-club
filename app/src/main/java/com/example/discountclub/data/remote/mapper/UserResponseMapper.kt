@@ -1,10 +1,10 @@
-package com.example.discountclub.data.local.mapper
+package com.example.discountclub.data.remote.mapper
 
 import com.example.discountclub.data.local.model.User
-import com.example.discountclub.domain.model.User as DomainUser
+import com.example.discountclub.data.remote.model.UserResponse
 
-fun User.toDomainUser(): DomainUser {
-    return DomainUser(
+fun UserResponse.toLocalUser(): User {
+    return User(
         phoneNumber = phoneNumber,
         name = name,
         lastName = lastName,

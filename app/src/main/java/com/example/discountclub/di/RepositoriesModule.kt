@@ -1,10 +1,8 @@
 package com.example.discountclub.di
 
-import com.example.discountclub.data.LoginRepository
 import com.example.discountclub.data.PurchasesRepository
 import com.example.discountclub.data.SettingsRepository
 import com.example.discountclub.data.UserRepository
-import com.example.discountclub.domain.repository.LoginRepositoryApi
 import com.example.discountclub.domain.repository.PurchasesRepositoryApi
 import com.example.discountclub.domain.repository.SettingsRepositoryApi
 import com.example.discountclub.domain.repository.UserRepositoryApi
@@ -22,9 +20,6 @@ interface RepositoriesModule {
 
     @Binds
     fun bindPurchasesRepositoryApi(impl: PurchasesRepository): PurchasesRepositoryApi
-
-    @Binds
-    fun bindLoginRepositoryApi(impl: LoginRepository): LoginRepositoryApi
 
     @Binds
     fun bindSettingsRepositoryApi(impl: SettingsRepository): SettingsRepositoryApi

@@ -6,6 +6,8 @@ import com.example.discountclub.R
 import com.example.discountclub.domain.model.Settings
 
 @Composable
-fun Settings.Language.asString(): String = when (this) {
-    Settings.Language.RUSSIAN -> stringResource(R.string.russian)
+fun Settings.Language.asString(): String {
+    return when (this) {
+        Settings.Language.RUSSIAN -> stringResource(R.string.russian)
+    }
 }

@@ -2,8 +2,8 @@ package com.example.discountclub.ui.screens.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.discountclub.domain.LoginUseCase
-import com.example.discountclub.domain.dto.LoginParameters
+import com.example.discountclub.domain.RegisterUseCase
+import com.example.discountclub.domain.dto.RegistrationParameters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
+    private val registerUseCase: RegisterUseCase,
 ) : ViewModel() {
     private val _uiState =
         MutableStateFlow<RegistrationUiState>(RegistrationUiState.Editing(RegistrationForm.EMPTY))
@@ -56,7 +56,7 @@ class RegistrationViewModel @Inject constructor(
         if (form.isValid) {
             _uiState.value = RegistrationUiState.Loading(form)
             viewModelScope.launch {
-                loginUseCase(loginParameters = form.toLoginParameters())
+                registerUseCase(parameters = form.toRegistrationParameters())
                 _effects.send(RegistrationEffect.NavigateBack)
             }
         }
@@ -121,8 +121,8 @@ data class RegistrationForm(
     }
 }
 
-fun RegistrationForm.toLoginParameters(): LoginParameters {
-    return LoginParameters(
+fun RegistrationForm.toRegistrationParameters(): RegistrationParameters {
+    return RegistrationParameters(
         participantNumber = participantNumber.text,
         code = code.text,
         name = name.text,
