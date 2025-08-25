@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.discountclub.ui.components.DiscountClubTopBar
 import com.example.discountclub.ui.navigation.Screen
 import com.example.discountclub.ui.screens.profile.ProfileScreen
 import com.example.discountclub.ui.screens.purchases.MyPurchasesScreen

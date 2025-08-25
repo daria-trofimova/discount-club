@@ -1,4 +1,4 @@
-package com.example.discountclub.ui
+package com.example.discountclub.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons

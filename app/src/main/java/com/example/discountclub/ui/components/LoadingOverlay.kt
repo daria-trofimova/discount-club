@@ -1,4 +1,4 @@
-package com.example.discountclub.ui
+package com.example.discountclub.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
