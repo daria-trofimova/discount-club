@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,7 +38,7 @@ fun RegistrationScreen(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(viewModel) {
         viewModel.effect.collect { effect ->
             when (effect) {
@@ -45,19 +46,34 @@ fun RegistrationScreen(
             }
         }
     }
-    val currentUiState = uiState.value
-    RegistrationScreenContent(
-        state = currentUiState,
-        onParticipantNumberChange = {
-            viewModel.sendIntent(RegistrationIntent.UpdateParticipantNumber(it))
+    RegistrationScreen(
+        uiState = uiState,
+        onSendIntent = {
+            viewModel.sendIntent(it)
         },
-        onCodeChange = { viewModel.sendIntent(RegistrationIntent.UpdateCode(it)) },
-        onNameChange = { viewModel.sendIntent(RegistrationIntent.UpdateName(it)) },
-        onLastNameChange = { viewModel.sendIntent(RegistrationIntent.UpdateLastName(it)) },
-        onSubmitButtonClick = { viewModel.sendIntent(RegistrationIntent.Submit) },
         modifier = modifier,
     )
-    if (currentUiState is RegistrationUiState.Loading) {
+}
+
+@Composable
+private fun RegistrationScreen(
+    uiState: RegistrationUiState,
+
+    onSendIntent: (RegistrationIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    RegistrationScreenContent(
+        state = uiState,
+        onParticipantNumberChange = {
+            onSendIntent(RegistrationIntent.UpdateParticipantNumber(it))
+        },
+        onCodeChange = { onSendIntent(RegistrationIntent.UpdateCode(it)) },
+        onNameChange = { onSendIntent(RegistrationIntent.UpdateName(it)) },
+        onLastNameChange = { onSendIntent(RegistrationIntent.UpdateLastName(it)) },
+        onSubmitButtonClick = { onSendIntent(RegistrationIntent.Submit) },
+        modifier = modifier,
+    )
+    if (uiState is RegistrationUiState.Loading) {
         LoadingOverlay(modifier = modifier)
     }
 }
