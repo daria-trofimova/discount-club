@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,11 +33,22 @@ fun MyPurchasesScreen(
     modifier: Modifier = Modifier,
     viewModel: MyPurchasesViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    when (val state = uiState.value) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    MyPurchasesScreen(
+        uiState = uiState,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun MyPurchasesScreen(
+    uiState: MyPurchasesUiState,
+    modifier: Modifier = Modifier,
+) {
+    when (uiState) {
         is MyPurchasesUiState.Loading -> LoadingMyPurchases(modifier = modifier)
         is MyPurchasesUiState.Success -> MyPurchases(
-            purchasesByDate = state.purchasesByDate,
+            purchasesByDate = uiState.purchasesByDate,
             modifier = modifier,
         )
     }
